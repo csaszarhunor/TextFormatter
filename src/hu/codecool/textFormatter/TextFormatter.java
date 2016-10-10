@@ -1,40 +1,29 @@
 package hu.codecool.textFormatter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TextFormatter {
 
 	public String[] format(String raw, int charNum) {
 		String[] words = raw.split(" ");
-		List<String> lines = new ArrayList<>();
-
-		String line = "";
+		String lines = "";
+		int charsLeft = charNum;
+		
 		for (int i = 0; i < words.length; i++) {
-			if (line.length() + words[i].length() + 1 <= charNum) {
-				line += words[i] + " ";
-			} else if (words[i].length() >= charNum) {
-				if (line.length() != 0)
-					lines.add(line);
-				lines.add(words[i]);
-				line = "";
+			if (words[i].length() + 1 >= charsLeft){
+				lines += "/n" + words[i] + " ";
+				charsLeft = charNum - words[i].length() + 1;
 			} else {
-				lines.add(line);
-				line = words[i] + " ";
+				lines += words[i] + " ";
+				charsLeft -= words[i].length() + 1;
 			}
 		}
-		Object[] objs = lines.toArray();
-		String[] result = new String[objs.length];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = (String) objs[i];
-		}
-		return result;
+		
+		return lines.split("/n");
 	}
 
 	public static void main(String[] args) {
 		String str = "12345 123 1234567 123456789 123 12 1 123 1234";
 		TextFormatter tf = new TextFormatter();
-		String[] result = tf.format(str, 7);
+		String[] result = tf.format(str, 4);
 		for (int i = 0; i < result.length; i++) {
 			System.out.println(result[i]);
 		}
