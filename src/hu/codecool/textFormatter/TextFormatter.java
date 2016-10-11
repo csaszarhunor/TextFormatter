@@ -30,9 +30,23 @@ public class TextFormatter {
 		return (String[]) lines.toArray(new String[lines.size()]);
 	}
 	
+	public static String[] alignWithConcreteLength(String text, int maxLineLength){
+		List<String> lines = new ArrayList<>();
+		for (int i = 0; i < text.length(); i += maxLineLength) {
+			String line = (text.length() < i + maxLineLength) ? text.substring(i) : text.substring(i, i + maxLineLength);
+			lines.add(line);
+		}
+		return (String[]) lines.toArray(new String[lines.size()]);
+	}
+	
 	public static void main(String[] args) {
 		String text = "I am a Codecooler dsdfs sdfsdfsf sdfsdffsfsddfsf sdf d d df dfdf sdf";
-		String[] lines = TextFormatter.format(text, 5);
+		String[] lines = TextFormatter.alignWithConcreteLength(text, 5);
+		for (String string : lines) {
+			System.out.println(string);
+		}
+		System.out.println();
+		lines = TextFormatter.format(text, 5);
 		for (String string : lines) {
 			System.out.println(string);
 		}
